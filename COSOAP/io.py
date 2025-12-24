@@ -21,7 +21,7 @@ def read_input(input_path, nproc):
         xyz_files = []
         for root, _, files in os.walk(input_path):
             for f in files:
-                if f.lower().endswith(('.xyz', '.extxyz')):
+                if f.lower().endswith(('.xyz', '.extxyz', '.traj')):
                     xyz_files.append(os.path.join(root, f))
         if not xyz_files:
             raise ValueError("No .xyz files found in folder")
@@ -41,4 +41,5 @@ def write_outputs(atoms_all, train_idx, test_idx, unlabeled_idx):
     write("test.xyz", [atoms_all[i] for i in test_idx])
     write("unlabeled.xyz", [atoms_all[i] for i in unlabeled_idx])
     print(f"[OUTPUT] train.xyz: {len(train_idx)}, test.xyz: {len(test_idx)}, "
+
           f"unlabeled.xyz: {len(unlabeled_idx)}")
