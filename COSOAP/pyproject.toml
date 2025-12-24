@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cosdedup"
+version = "0.1.0"
+description = "SOAP-based structure deduplication with labeled priority"
+authors = [{name = "Ycx"]
+dependencies = [
+    "ase",
+    "dscribe",
+    "numpy",
+    "tqdm"
+]
+
+[project.optional-dependencies]
+dev = ["black", "isort"]
+
+[project.scripts]
+soap-dedup = "soap_dedup.__main__:main"
