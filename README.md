@@ -17,7 +17,7 @@ COSOAP [-h] [-i INPUT_PATH] [-p NPROC] [-s SIMLT] [-a ATOMS] [-r RCUT]
                         show this help message and exit
   
     -i INPUT_PATH, --input INPUT_PATH  
-                        Input: single .xyz/.extxyz file or folder containing them
+                        Input: single .xyz/.extxyz/.traj file or folder containing them
                         
     -p NPROC, --nproc NPROC
                         Number of processes (default: auto)
