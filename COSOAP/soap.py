@@ -18,21 +18,23 @@ def split_structures(atoms_all, center_elements):
         if get_Kpts(atoms.cell) > 100:
             continue
 
-        key = "".join(sorted(set(atoms.symbols)))
+        key = "".join(sorted(atoms.symbols))
 
         # 判断是否有标签
         try:
-            energy = atoms.get_potential_energy()
-            forces = atoms.get_forces()
-            per_atom_e = energy / len(atoms)
-            max_force = np.linalg.norm(forces, axis=1).max()
-            has_label = (-10 <= per_atom_e <= -1) and (max_force <= 10)
+            if (-10 <= per_atom_e <= -1) and (max_force <= 10)：
+                energy = atoms.get_potential_energy()
+                forces = atoms.get_forces()
+                per_atom_e = energy / len(atoms)
+                max_force = np.linalg.norm(forces, axis=1).max()
+                has_label = True
+            else: break
         except:
             has_label = False
 
         if key not in groups:
             groups[key] = {
-                "symbols": sorted(set(atoms.symbols)),
+                "symbols": sorted(atoms.symbols),
                 "atoms": [],
                 "indices": [],
                 "has_label": []   # 新增：记录每个结构是否有标签
@@ -42,12 +44,13 @@ def split_structures(atoms_all, center_elements):
         groups[key]["indices"].append(idx)
         groups[key]["has_label"].append(has_label)
 
-    return groups  # 只有一个字典
+    return groups  
 
 def build_cache(group, cache_dir, nproc, center_elements, rcut=6.0):
     symbols = group["symbols"]
     atoms_list = group["atoms"]
-    indices = group["indices"]
+    #indices = group["indices"]
+    indices = range(len(atoms_list))
     symbols_str = "".join(sorted(symbols))
     tag = soap_param_hash(rcut)
     soap_file = f"{cache_dir}/SOAP_{tag}_{symbols_str}.npy"
@@ -79,4 +82,5 @@ def build_cache(group, cache_dir, nproc, center_elements, rcut=6.0):
 
     np.save(soap_file, np.array(descs, dtype=np.float32))
     np.save(f"{cache_dir}/INDEX_{symbols_str}.npy", np.array(indices, dtype=np.int32))
+
     np.save(f"{cache_dir}/HAS_LABEL_{symbols_str}.npy", np.array(group["has_label"], dtype=bool))
