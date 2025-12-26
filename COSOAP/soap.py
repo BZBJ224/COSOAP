@@ -22,7 +22,7 @@ def split_structures(atoms_all, center_elements):
 
         # 判断是否有标签
         try:
-            if (-10 <= per_atom_e <= -1) and (max_force <= 10):
+            if (-10 <= per_atom_e <= -1) or (max_force <= 10):
                 energy = atoms.get_potential_energy()
                 forces = atoms.get_forces()
                 per_atom_e = energy / len(atoms)
@@ -84,4 +84,5 @@ def build_cache(group, cache_dir, nproc, center_elements, rcut=6.0):
     np.save(f"{cache_dir}/INDEX_{symbols_str}.npy", np.array(indices, dtype=np.int32))
 
     np.save(f"{cache_dir}/HAS_LABEL_{symbols_str}.npy", np.array(group["has_label"], dtype=bool))
+
 
