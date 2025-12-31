@@ -8,28 +8,34 @@ pip install .
 ```
 ## Useage
 ```bash
-COSOAP [-h] [-i INPUT_PATH] [-p NPROC] [-s SIMLT] [-a ATOMS] [-r RCUT]
+COSOAP [-h] [-i INPUT_PATH] [-p NPROC] [-m {fps,threshold}] [-n NUM] [-s SIMLT] [-a ATOMS] [-r RCUT]
 ```
 
 ### optional arguments:
 
-    -h, --help            
+      -h, --help            
                         show this help message and exit
-  
-    -i INPUT_PATH, --input INPUT_PATH  
-                        Input: single .xyz/.extxyz/.traj file or folder containing them
                         
-    -p NPROC, --nproc NPROC
-                        Number of processes (default: auto)
+      -i INPUT_PATH, --input INPUT_PATH
+                        Input: single .xyz/.extxyz file or folder
                         
-    -s SIMLT, --simlT SIMLT
-                        Similarity threshold (1 - cosine), smaller = stricter (default: 0.005)
+      -p NPROC, --nproc NPROC
+                        Number of processes
                         
-    -a ATOMS, --atoms ATOMS
-                        Space-separated elements used as SOAP centers (default: 'C H O')
+      -m {fps,threshold}, --mode {fps,threshold}
+                        Selection mode: 'fps' (select fixed N) or 'threshold' (remove duplicates). Default: fps
                         
-    -r RCUT, --rcut RCUT  
-                        SOAP cutoff radius in Å (default: 6.0)
+      -n NUM, --num NUM     
+                        [FPS Mode] Total number of structures to select. Default: 1000
+      
+      -s SIMLT, --simlT SIMLT
+                        [Threshold Mode] Similarity threshold (1 - cosine). Default: 0.005
+                        
+      -a ATOMS, --atoms ATOMS
+                        SOAP centers (e.g. 'C H O')
+                        
+      -r RCUT, --rcut RCUT  
+                        SOAP cutoff radius
   
 
 ### Output files:
@@ -37,9 +43,6 @@ COSOAP [-h] [-i INPUT_PATH] [-p NPROC] [-s SIMLT] [-a ATOMS] [-r RCUT]
     train.xyz       : Unique labeled structures
   
     test.xyz        : Similar labeled structures (for validation)
-  
-    unlabeled.xyz   : Deduplicated unlabeled structures
-  
-    uniques.csv     : Statistics per composition
-  
+
+
     soap_cache/     : Cached descriptors (reused on rerun)
