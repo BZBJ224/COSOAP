@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="COSOAP",
-    version="0.1.0",
+    version="0.1.1",
     author="Ycx",
     description="SOAP-based structure deduplication with labeled data priority",
     packages=find_packages(), 
